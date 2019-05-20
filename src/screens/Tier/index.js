@@ -68,7 +68,7 @@ componentDidMount(){
       StoreGlobal.currentLatitude = currentLatitude;
     });
 
-     fetch("https://tier.frontend.fleetbird.eu/api/prod/v1.06/map/cars/?lat" + this.state.currentLatitude + "&lng=" + this.state.currentLongitude)
+     fetch("https://tier.frontend.fleetbird.eu/api/prod/v1.06/map/cars/?lat=" + this.state.currentLatitude + "&lng=" + this.state.currentLongitude)
        .then(response => response.json())
        .then((responseJson)=> {
          this.setState({
