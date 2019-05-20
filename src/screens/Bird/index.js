@@ -28,7 +28,7 @@ componentDidMount(){
           }
         )
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          //To Check, If Permission is granted
+          //Check if Permission is granted
           that.callLocation(that);
         } else {
           alert("Permission was denied");
@@ -42,36 +42,30 @@ componentDidMount(){
   }    
  }
  callLocation(that){
-  //alert("callLocation Called");
+
     navigator.geolocation.getCurrentPosition(
-      //Will give you the current location
+      //Get the current location
        (position) => {
           const currentLongitude = JSON.stringify(position.coords.longitude);
-          //getting the Longitude from the location json
           const currentLatitude = JSON.stringify(position.coords.latitude);
-          //getting the Latitude from the location json
+
           that.setState({ currentLongitude:currentLongitude });
-          //Setting state Longitude to re-render the Longitude Text
           that.setState({ currentLatitude:currentLatitude });
-          //Setting state Latitude to re-render the Longitude Text
        },
        (error) => alert(error.message),
        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
     that.watchID = navigator.geolocation.watchPosition((position) => {
-      //Will give you the location on location change
-        console.log(position);
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        //getting the Longitude from the location json
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-        //getting the Latitude from the location json
-       that.setState({ currentLongitude:currentLongitude });
-       //Setting state Longitude to re-render the Longitude Text
-       that.setState({ currentLatitude:currentLatitude });
-       //Setting state Latitude to re-render the Longitude Text
 
-       StoreGlobal.currentLongitude = currentLongitude;
-       StoreGlobal.currentLatitude = currentLatitude;
+      const currentLongitude = JSON.stringify(position.coords.longitude);
+      const currentLatitude = JSON.stringify(position.coords.latitude);
+
+      that.setState({ currentLongitude:currentLongitude });
+      that.setState({ currentLatitude:currentLatitude });
+      
+      // Global state
+      StoreGlobal.currentLongitude = currentLongitude;
+      StoreGlobal.currentLatitude = currentLatitude;
     });
 
      fetch("https://tier.frontend.fleetbird.eu/api/prod/v1.06/map/cars/?lat" + this.state.currentLatitude + "&lng=" + this.state.currentLongitude)
