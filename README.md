@@ -8,6 +8,19 @@ react-native link
 react-native run-ios or react-native run-android
 ```
 
+## APIs
+
+### Voi
+
+VOI is a scooter sharing company founded in Sweden. They have electric scooters available at several locations in Europe, including cities in Sweden, Spain, Italy, France and others. A simple GET request to get scooters available for rental nearby a location (specified with latitude/longtitude parameters) looks like this:
+
+https://api.voiapp.io/v1/vehicle/status/ready?lat=59.329323&lng=18.068581
+
+(no authentication is needed)
+
+The request will return data about scooters in a list with JSON objects. M
+
+
 ## Generating an .ipa file
 
 Products->Scheme->Edit scheme -> Change build configuration to RELEASE
