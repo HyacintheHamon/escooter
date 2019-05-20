@@ -1,13 +1,13 @@
 import {createBottomTabNavigator, createAppContainer} from 'react-navigation';
 
 
-import Bird from '../screens/Bird/index';
+import Tier from '../screens/Tier/index';
 import Voi from '../screens/Voi/index';
 import Map from '../screens/Map/index';
 
 
 const RootStack = createBottomTabNavigator({
-    Bird: Bird,
+    Tier: Tier,
     Voi: Voi,
     Map: Map
 },{

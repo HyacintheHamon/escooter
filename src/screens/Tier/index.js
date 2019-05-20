@@ -2,7 +2,7 @@ import React from "react";
 import {SafeAreaView, StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, PermissionsAndroid,Platform} from 'react-native';
 var StoreGlobal = require('../../stores/storeGlobal');
 
-export default class Bird extends React.Component {
+export default class Tier extends React.Component {
 
   constructor(props) {
     super(props);
