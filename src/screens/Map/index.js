@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Animated, Image, Dimensions} from "
 import MapView from "react-native-maps";
 
 var StoreGlobal = require('../../stores/storeGlobal');
-
+var scooterImg = require('../../img/scooter.png');
 const { width, height } = Dimensions.get("window");
 
 const CARD_HEIGHT = height / 4;
@@ -11,40 +11,6 @@ const CARD_WIDTH = CARD_HEIGHT - 50;
 
 export default class Map extends Component {
   state = {
-    markers: [
-      {
-        coordinate: {
-          latitude: 45.524548,
-          longitude: -122.6749817,
-        },
-        title: "Best Place",
-        description: "This is the best place in Portland",
-      },
-      {
-        coordinate: {
-          latitude: 45.524698,
-          longitude: -122.6655507,
-        },
-        title: "Second Best Place",
-        description: "This is the second best place in Portland",
-      },
-      {
-        coordinate: {
-          latitude: 45.5230786,
-          longitude: -122.6701034,
-        },
-        title: "Third Best Place",
-        description: "This is the third best place in Portland",
-      },
-      {
-        coordinate: {
-          latitude: 45.521016,
-          longitude: -122.6561917,
-        },
-        title: "Fourth Best Place",
-        description: "This is the fourth best place in Portland",
-      },
-    ],
     region: {
       latitude: StoreGlobal.currentLatitude,
       longitude: StoreGlobal.currentLongitude,
@@ -94,10 +60,11 @@ export default class Map extends Component {
                 latitude: marker.location[0],
                 longitude: marker.location[1],
               }}>
-                <Animated.View style={styles.markerWrap}>
-                  <Animated.View style={styles.ring} />
-                  <View style={styles.marker} />
-                </Animated.View>
+                  <Image
+                  source={scooterImg}
+                  style={styles.scooterImg}
+                  />
+                <Text style={styles.batteryText}>{marker.battery}%</Text>
               </MapView.Marker>
             );
           })}
@@ -161,6 +128,11 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     backgroundColor: "rgba(130,4,150, 0.9)",
+  },
+  scooterImg: {
+  },
+  batteryText: {
+    fontSize: 10
   },
   ring: {
     width: 24,
