@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Animated, Image, Dimensions} from "
 import MapView from "react-native-maps";
 
 var StoreGlobal = require('../../stores/storeGlobal');
-var scooterImg = require('../../img/scooter.png');
+var scooterImg = require('../../img/voi-marker.png');
 const { width, height } = Dimensions.get("window");
 
 const CARD_HEIGHT = height / 4;
@@ -64,7 +64,7 @@ export default class Map extends Component {
                   source={scooterImg}
                   style={styles.scooterImg}
                   />
-                <Text style={styles.batteryText}>{marker.battery}%</Text>
+               {/* <Text style={styles.batteryText}>{marker.battery}%</Text> */}
               </MapView.Marker>
             );
           })}
@@ -130,6 +130,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(130,4,150, 0.9)",
   },
   scooterImg: {
+    width: 30,
+    height: 37,
   },
   batteryText: {
     fontSize: 10
