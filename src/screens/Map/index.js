@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ScrollView, Animated, Image, Dimensions} from "react-native";
-import MapView from "react-native-maps";
+import { StyleSheet, SafeAreaView, Animated, Image, Dimensions} from "react-native";
+
+import MapView from 'react-native-map-clustering';
+import { Marker } from 'react-native-maps';
 
 var StoreGlobal = require('../../stores/storeGlobal');
 var scooterImg = require('../../img/voi-marker.png');
@@ -13,7 +15,7 @@ export default class Map extends Component {
   state = {
     region: {
       latitude: StoreGlobal.currentLatitude,
-      longitude: StoreGlobal.currentLongitude,
+      longitude: StoreGlobal.currentLatitude,
       latitudeDelta: 0.04864195044303443,
       longitudeDelta: 0.040142817690068,
     },
@@ -26,50 +28,54 @@ export default class Map extends Component {
   }
 
   componentDidMount(){
-  fetch("https://api.voiapp.io/v1/vehicle/status/ready?lat=" + StoreGlobal.currentLatitude + "&lng=" + StoreGlobal.currentLongitude)
-    .then(response => response.json())
-    .then((responseJson)=> {
-      this.setState({
-        loading: false,
-        dataSource: responseJson
-      })
-    })
-    .catch(error=>console.log(error)) 
 
-    console.log('latitude', StoreGlobal.currentLatitude);
-    console.log('longitude', StoreGlobal.currentLongitude);
-}
+    console.log('Current latitude :', StoreGlobal.currentLatitude);
+    console.log('Current longitude :', StoreGlobal.currentLatitude);
+
+    fetch("https://api.voiapp.io/v1/vehicle/status/ready?lat=" + StoreGlobal.currentLatitude + "&lng=" + StoreGlobal.currentLatitude)
+      .then(response => response.json())
+      .then((responseJson)=> {
+        this.setState({
+          loading: false,
+          dataSource: responseJson
+        })
+      })
+      .catch(error=>console.log(error)) 
+  }
 
 
   render() {
-
+    if(this.state.loading){
+      return( 
+        <View style={styles.loader}> 
+          <ActivityIndicator size="large" color="#0c9"/>
+        </View>
+    )}
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>  
         <MapView
+          clustering = {true}
           ref={map => this.map = map}
-          initialRegion={this.state.region}
-          style={styles.container}
-        >
+          clusterColor = '#000'
+          clusterTextColor = '#fff'
+          clusterBorderColor = '#fff'
+          clusterBorderWidth = {4}
+          region={this.state.region}
+          style={styles.container}>
+
           {this.state.dataSource.map((marker, index) => {
 
-            console.log('item lattitude', marker.location[0]);
-            console.log('item longitude', marker.location[1]);
+            console.log('Marker latitude :', marker.location[0]);
+            console.log('Marker longitude :', marker.location[0]);
 
             return (
-              <MapView.Marker key={index} coordinate={{
-                latitude: marker.location[0],
-                longitude: marker.location[1],
-              }}>
-                  <Image
-                  source={scooterImg}
-                  style={styles.scooterImg}
-                  />
-               {/* <Text style={styles.batteryText}>{marker.battery}%</Text> */}
-              </MapView.Marker>
+              <Marker key={index} coordinate={{latitude: marker.location[0], longitude: marker.location[1] }} cluster={true}>
+                <Image source={scooterImg} style={styles.scooterImg} />
+              </Marker>
             );
           })}
         </MapView>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -77,6 +83,8 @@ export default class Map extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollView: {
     position: "absolute",
